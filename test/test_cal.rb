@@ -3,10 +3,6 @@ require 'cal'
 
 class CalTest < Test::Unit::TestCase
 
-  def test_01_Week_has_7_days_and_inst_vars
-    week = Week.new
-  end
-
   def test_02_set_leap_year_calcs_leap_years_and_works_with_defaults
 
     m = Month.new( 0, 0 )
@@ -39,7 +35,10 @@ class CalTest < Test::Unit::TestCase
     assert_equal  29, m4.num_days
   end
 
-  def test_05_calc_start_day_returns_right_day
+  def test_05_leap_year_offset_works
+    
+  end
+  def test_06_calc_start_day_returns_right_day
 
     m1 = Month.new(1, 2000)
     m2 = Month.new(12, 2000)
@@ -51,9 +50,19 @@ class CalTest < Test::Unit::TestCase
 
   end
 
+  def test_07_display_title_shows_month_and_year_centered
+    m1 = Month.new(9, 1989).display_title
+    m2 = Month.new(2, 2014).display_title
+    
+    assert_equal "   September 1989   ", m1
+    assert_equal '   February 2014    ', m2
+    
+  end
 
+  def test_08_display_day_names
 
-
-
-
+    m = Month.new(5, 1995).display_day_names
+  
+    assert_equal 'Su Mo Tu We Th Fr Sa', m
+  end
 end
