@@ -66,6 +66,7 @@ class Month
 
   def display_dates
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}
+    initial_array.map!{ |x| x.size == 1 ? ' ' + x: x }
     start_date = @first_day == 0 ? 6 : @first_day - 1  #start_day to accommodate cal starting on sunday
     start_date.times { initial_array.unshift('') }
     display_array = []
@@ -79,7 +80,7 @@ class Month
   end
 end
 
-test = Month.new(2, 2000)
+test = Month.new(9, 1989)
 puts test.display_title
 puts test.display_day_names
-puts test.display_dates
+test.display_dates
