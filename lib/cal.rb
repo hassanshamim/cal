@@ -13,7 +13,7 @@ class Month
     @month = month
     set_leap_year( year )
     calc_num_days( month )
-    calc_start_day 
+    calc_start_day( year, month )
   end
 
   def set_leap_year( year = YEAR )
@@ -36,17 +36,23 @@ class Month
     if month == feb then @num_days = ( @leap_year ? 29 : 28 ) end
   end
 
-  def calc_start_day
-    if @month < 3
-       month = @month + 12
-       year = @year - 1
-    else
-      month, year = @month, @year
+
+
+  def calc_start_day( year, month )
+    if month < 3
+      month += 12
+      year -= 1
     end
     day_of_month = 1
-    leap_year_offset = ( year/4 ) +( 6 *( year/100 ) ) + ( year/400 )
-    march_offset = ( ( month+1 ) *26 ) / 10
-    
-    @first_day = ( day_of_month + march_offset + year + leap_year_offset ) % 7
+   @first_day = ( day_of_month + march_offset(month) + year + leap_year_offset(year) ) % 7
   end
+
+  def leap_year_offset( year)
+    ( year/4 ) +( 6 *( year/100 ) ) + ( year/400 )
+  end
+
+  def march_offset( month )
+    ( ( month + 1 ) * 26 ) / 10
+  end
+
 end
