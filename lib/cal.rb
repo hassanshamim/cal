@@ -3,8 +3,6 @@ MONTH = ARGV[0]
 
 class Month
 
-  @month_names = %w{ January February March April May June July August September October November December }.unshift('MONTH CANNOT BE ZERO')
-  @day_titles = [ 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa' ]
 
   attr_reader :leap_year, :num_days, :first_day
 
@@ -13,7 +11,8 @@ class Month
     @month = month
     set_leap_year( year )
     calc_num_days( month )
-    calc_start_day( year, month )
+    calc_start_day( month, year )
+    a = []
   end
 
   def set_leap_year( year = YEAR )
@@ -36,9 +35,7 @@ class Month
     if month == feb then @num_days = ( @leap_year ? 29 : 28 ) end
   end
 
-
-
-  def calc_start_day( year, month )
+  def calc_start_day( month, year )
     if month < 3
       month += 12
       year -= 1
@@ -55,4 +52,34 @@ class Month
     ( ( month + 1 ) * 26 ) / 10
   end
 
+  def display_title
+    month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
+    name = month_names[@month]
+    year = @year
+    "#{name} #{year}".center(20)
+    
+  end
+
+  def display_day_names
+    'Su Mo Tu We Th Fr Sa'
+  end
+
+  def display_dates
+    initial_array = (1..@num_days).to_a.map{|x| x.to_s}
+    start_date = @first_day == 0 ? 6 : @first_day - 1  #start_day to accommodate cal starting on sunday
+    start_date.times { initial_array.unshift('') }
+    display_array = []
+    6.times { display_array << initial_array.slice!(0, 7) }
+    display_array.select{ |x| x.size > 0 }
+
+    display_array.each do | week |
+      week.each { |date| print date.center(2)+ ' ' }
+      puts ''
+    end
+  end
 end
+
+test = Month.new(2, 2000)
+puts test.display_title
+puts test.display_day_names
+puts test.display_dates
