@@ -23,7 +23,7 @@ class CalTest < Test::Unit::TestCase
     m = Month.new( 1, 1337 )
     assert_equal false, m.leap_year
 
-    m.set_leap_year( 60 )
+    m.set_leap_year( 2000 )
     assert_equal true, m.leap_year
   end
 
@@ -38,5 +38,22 @@ class CalTest < Test::Unit::TestCase
     assert_equal  28, m3.num_days
     assert_equal  29, m4.num_days
   end
+
+  def test_05_calc_start_day_returns_right_day
+
+    m1 = Month.new(1, 2000)
+    m2 = Month.new(12, 2000)
+    m3 = Month.new(3, 1999)
+
+    assert_equal 0, m1.first_day
+    assert_equal 6, m2.first_day
+    assert_equal 2, m3.first_day
+
+  end
+
+
+
+
+
 
 end
