@@ -3,24 +3,27 @@ require 'cal'
 
 class CalTest < Test::Unit::TestCase
 
-  def test_02_set_leap_year_calcs_leap_years_and_works_with_defaults
+#  def test_02_set_leap_year_calcs_leap_years_and_works_with_defaults
+#
+#    m = Month.new( 0, 0 )
+#
+#    assert_equal true, m.set_leap_year( 2000 )
+#    assert_equal false, m.set_leap_year( 1900 )
+#    assert_equal true, m.set_leap_year( 1604 )
+#    assert_equal false, m.set_leap_year( 1923 )
 
-    m = Month.new( 0, 0 )
+#  end
 
-    assert_equal true, m.set_leap_year( 2000 )
-    assert_equal false, m.set_leap_year( 1900 )
-    assert_equal true, m.set_leap_year( 1604 )
-    assert_equal false, m.set_leap_year( 1923 )
-
-  end
-
-  def test_03_leap_year_returns_boolean
+  def test_02_not_a_leap_year_returns_false
 
     m = Month.new( 1, 1337 )
-    assert_equal false, m.leap_year
+    assert_equal false, m.leap_year?
+  end
 
-    m.set_leap_year( 2000 )
-    assert_equal true, m.leap_year
+  def test_03_leap_year_returns_true
+
+    m = Month.new( 2, 2000 )
+    assert_equal true, m.leap_year?
   end
 
   def test_04_calc_num_days_returns_correct_number

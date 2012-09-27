@@ -2,35 +2,38 @@ YEAR = ARGV[1].to_i
 MONTH = ARGV[0].to_i
 class Month
 
-
   attr_reader :leap_year, :num_days, :first_day
 
   def initialize( month, year )
     @year = year
     @month = month
-    set_leap_year( year )
+#    set_leap_year( year )
     calc_num_days( month )
     calc_start_day( month, year )
   end
 
-  def set_leap_year( year )
-    if year % 400 == 0
-      @leap_year = true
-    elsif year % 100 == 0
-      @leap_year = false
-    elsif year % 4 == 0
-      @leap_year = true
+  def leap_year?
+#    false
+#    true if @year % 4 == 0
+#    false if @year % 100 == 0
+#    true if @year % 400 == 0
+
+    if @year % 400 == 0
+      true
+    elsif @year % 100 == 0
+      false
+    elsif @year % 4 == 0
+      true
     else
-      @leap_year = false
+      false
     end
   end
 
   def calc_num_days( month )
     months_with_31_days = [ 1, 3, 5, 7, 8, 10, 12 ]
     feb = 2
-
     @num_days =  months_with_31_days.include?(month) ? 31 : 30
-    if month == feb then @num_days = ( @leap_year ? 29 : 28 ) end
+    if month == feb then @num_days = ( leap_year? ? 29 : 28 ) end
   end
 
   def calc_start_day( month, year )
