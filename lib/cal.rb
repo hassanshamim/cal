@@ -1,6 +1,5 @@
-YEAR = ARGV[1]
-MONTH = ARGV[0]
-
+YEAR = ARGV[1].to_i
+MONTH = ARGV[0].to_i
 class Month
 
 
@@ -12,10 +11,9 @@ class Month
     set_leap_year( year )
     calc_num_days( month )
     calc_start_day( month, year )
-    a = []
   end
 
-  def set_leap_year( year = YEAR )
+  def set_leap_year( year )
     if year % 400 == 0
       @leap_year = true
     elsif year % 100 == 0
@@ -54,14 +52,11 @@ class Month
 
   def display_title
     month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
-    name = month_names[@month]
-    year = @year
-    "#{name} #{year}".center(20)
-    
+    "#{month_names[@month]} #{@year}".center(20) + "  "
   end
 
   def display_day_names
-    'Su Mo Tu We Th Fr Sa'
+    'Su Mo Tu We Th Fr Sa  '
   end
 
   def display_dates
@@ -86,7 +81,7 @@ class Month
   end
 end
 
-test = Month.new(10, 2002)
+test = Month.new(MONTH, YEAR)
 puts test.display_title
 puts test.display_day_names
 test.display_dates
