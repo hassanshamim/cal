@@ -73,6 +73,15 @@ class Month
   end
 end
 
+class Year
+
+  def initialize ( year )
+    @year = year
+    @months_array = []
+    1.upto( 12 ) { |i| @months_array << Month.new( i, year ) }
+  end
+end
+
 example = Month.new(MONTH, YEAR)
 puts example.get_title_line
 puts example.get_day_names
