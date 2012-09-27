@@ -66,21 +66,28 @@ class Month
 
   def display_dates
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}
-    initial_array.map!{ |x| x.size == 1 ? ' ' + x: x }
+    initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }
     start_date = @first_day == 0 ? 6 : @first_day - 1  #start_day to accommodate cal starting on sunday
-    start_date.times { initial_array.unshift('') }
+    start_date.times { initial_array.unshift('  ') }
     display_array = []
     6.times { display_array << initial_array.slice!(0, 7) }
-    display_array.select{ |x| x.size > 0 }
+    display_array.select!{ |x| x.size > 0 }
+    empty = display_array.last.size
+    (7 - empty).times { display_array.last.push( '  ' ) }
+    test_string = ""
 
     display_array.each do | week |
-      week.each { |date| print date.center(2)+ ' ' }
-      puts ''
+      test_string << week.join(" ")
+      test_string << "\n"
+     # week.each { |date| print "#{ date.center(2) } " }
+     # print "\n"
     end
+    test_string.chomp!
+    test_string += ' '
   end
 end
 
-test = Month.new(9, 1989)
+test = Month.new(10, 2002)
 puts test.display_title
 puts test.display_day_names
 test.display_dates
