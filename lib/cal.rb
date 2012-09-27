@@ -78,12 +78,11 @@ class Month
 
     display_array.each do | week |
       test_string << week.join(" ")
-      test_string << "\n"
+      test_string << "  \n"
      # week.each { |date| print "#{ date.center(2) } " }
      # print "\n"
     end
     test_string.chomp!
-    test_string += ' '
   end
 end
 
