@@ -54,8 +54,8 @@ class CalTest < Test::Unit::TestCase
     m1 = Month.new(9, 1989).display_title
     m2 = Month.new(2, 2014).display_title
     
-    assert_equal "   September 1989   ", m1
-    assert_equal '   February 2014    ', m2
+    assert_equal "   September 1989     ", m1
+    assert_equal '   February 2014      ', m2
     
   end
 
@@ -63,7 +63,7 @@ class CalTest < Test::Unit::TestCase
 
     m = Month.new(5, 1995).display_day_names
   
-    assert_equal 'Su Mo Tu We Th Fr Sa', m
+    assert_equal 'Su Mo Tu We Th Fr Sa  ', m
   end
 
   def test_09_display_dates
