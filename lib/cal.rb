@@ -1,5 +1,6 @@
 YEAR = ARGV[1].to_i
 MONTH = ARGV[0].to_i
+
 class Month
 
   attr_reader :leap_year, :num_days, :first_day
@@ -12,15 +13,10 @@ class Month
   end
 
   def leap_year?
-    if @year % 400 == 0
-      true
-    elsif @year % 100 == 0
-      false
-    elsif @year % 4 == 0
-      true
-    else
-      false
-    end
+    return true if @year % 400 == 0
+    return false if @year % 100 == 0
+    return true if @year % 4 == 0
+    false
   end
 
   def calc_num_days( month )
@@ -57,6 +53,7 @@ class Month
   end
 
   def display_dates
+
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}
     initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }
     start_date = @first_day == 0 ? 6 : @first_day - 1  #start_day to accommodate cal starting on sunday
@@ -79,4 +76,4 @@ end
 example = Month.new(MONTH, YEAR)
 puts example.get_title_line
 puts example.get_day_names
-example.display_dates
+puts example.display_dates
