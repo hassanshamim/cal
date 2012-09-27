@@ -53,18 +53,18 @@ class CalTest < Test::Unit::TestCase
 
   end
 
-  def test_07_display_title_shows_month_and_year_centered
-    m1 = Month.new(9, 1989).display_title
-    m2 = Month.new(2, 2014).display_title
+  def test_07_get_title_line_returns_formatted_string
+    m1 = Month.new(9, 1989).get_title_line
+    m2 = Month.new(2, 2014).get_title_line
     
     assert_equal "   September 1989     ", m1
     assert_equal '   February 2014      ', m2
     
   end
 
-  def test_08_display_day_names
+  def test_08_get_day_names
 
-    m = Month.new(5, 1995).display_day_names
+    m = Month.new(5, 1995).get_day_names
   
     assert_equal 'Su Mo Tu We Th Fr Sa  ', m
   end

@@ -7,17 +7,11 @@ class Month
   def initialize( month, year )
     @year = year
     @month = month
-#    set_leap_year( year )
     calc_num_days( month )
     calc_start_day( month, year )
   end
 
   def leap_year?
-#    false
-#    true if @year % 4 == 0
-#    false if @year % 100 == 0
-#    true if @year % 400 == 0
-
     if @year % 400 == 0
       true
     elsif @year % 100 == 0
@@ -53,12 +47,12 @@ class Month
     ( ( month + 1 ) * 26 ) / 10
   end
 
-  def display_title
+  def get_title_line
     month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
     "#{month_names[@month]} #{@year}".center(20) + "  "
   end
 
-  def display_day_names
+  def get_day_names
     'Su Mo Tu We Th Fr Sa  '
   end
 
@@ -77,14 +71,12 @@ class Month
     display_array.each do | week |
       test_string << week.join(" ")
       test_string << "  \n"
-     # week.each { |date| print "#{ date.center(2) } " }
-     # print "\n"
     end
     test_string.chomp!
   end
 end
 
-test = Month.new(MONTH, YEAR)
-puts test.display_title
-puts test.display_day_names
-test.display_dates
+example = Month.new(MONTH, YEAR)
+puts example.get_title_line
+puts example.get_day_names
+example.display_dates
