@@ -56,7 +56,7 @@ class Month
     'Su Mo Tu We Th Fr Sa  '
   end
 
-  def display_dates
+  def to_ary_of_arys
 
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}   #creates array of dates in string format
     initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
@@ -68,7 +68,11 @@ class Month
     display_array.each do |array| 
       ( 7 - array.size ).times { array.push( '  ' ) }    #ensures week arrays have 7 elements
     end
+    display_array
+  end
 
+  def to_string
+    display_array = self.to_ary_of_arys
     test_string = ""
 
     display_array.each do | week |
@@ -96,4 +100,4 @@ end
 example = Month.new(MONTH, YEAR)
 puts example.get_title_line(20, MONTH, YEAR)
 puts example.get_day_names
-puts example.display_dates
+puts example.to_string
