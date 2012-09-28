@@ -2,7 +2,7 @@ YEAR = ARGV[1].to_i
 MONTH = ARGV[0].to_i
 
 module DisplayInfo
-  def get_title_line(width, month, year=nil)
+  def get_title_line(width, month=@month, year=nil)
     month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
     "#{month_names[month]} #{year}".center(width) + "  "
   end
@@ -58,15 +58,17 @@ class Month
 
   def display_dates
 
-    initial_array = (1..@num_days).to_a.map{|x| x.to_s}
-    initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }
-    start_date = @first_day == 0 ? 6 : @first_day - 1  #start_day to accommodate cal starting on sunday
-    start_date.times { initial_array.unshift('  ') }
+    initial_array = (1..@num_days).to_a.map{|x| x.to_s}   #creates array of dates in string format
+    initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
+    start_date = @first_day == 0 ? 6 : @first_day - 1     #start_day to accommodate cal starting on sunday
+    start_date.times { initial_array.unshift('  ') }      #adjust spacing for start day
     display_array = []
-    6.times { display_array << initial_array.slice!(0, 7) }
-    display_array.select!{ |x| x.size > 0 }
-    empty = display_array.last.size
-    (7 - empty).times { display_array.last.push( '  ' ) }
+    6.times { display_array << initial_array.slice!(0, 7) } #chunks array into an array of arrays
+
+    display_array.each do |array| 
+      ( 7 - array.size ).times { array.push( '  ' ) }    #ensures week arrays have 7 elements
+    end
+
     test_string = ""
 
     display_array.each do | week |
