@@ -54,8 +54,8 @@ class CalTest < Test::Unit::TestCase
   end
 
   def test_07_get_title_line_returns_formatted_string
-    m1 = Month.new(9, 1989).get_title_line
-    m2 = Month.new(2, 2014).get_title_line
+    m1 = Month.new(9, 1989).get_title_line(20, 9, 1989)
+    m2 = Month.new(2, 2014).get_title_line(20, 2, 2014)
     
     assert_equal "   September 1989     ", m1
     assert_equal '   February 2014      ', m2

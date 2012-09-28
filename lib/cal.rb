@@ -1,8 +1,17 @@
 YEAR = ARGV[1].to_i
 MONTH = ARGV[0].to_i
 
+module DisplayInfo
+  def get_title_line(width, month, year=nil)
+    month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
+    "#{month_names[month]} #{year}".center(width) + "  "
+  end
+end
+
+
 class Month
 
+  include DisplayInfo
   attr_reader :leap_year, :num_days, :first_day
 
   def initialize( month, year )
@@ -43,11 +52,6 @@ class Month
     ( ( month + 1 ) * 26 ) / 10
   end
 
-  def get_title_line
-    month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
-    "#{month_names[@month]} #{@year}".center(20) + "  "
-  end
-
   def get_day_names
     'Su Mo Tu We Th Fr Sa  '
   end
@@ -75,6 +79,8 @@ end
 
 class Year
 
+  include DisplayInfo
+
   def initialize ( year )
     @year = year
     @months_array = []
@@ -82,7 +88,10 @@ class Year
   end
 end
 
+
+
+
 example = Month.new(MONTH, YEAR)
-puts example.get_title_line
+puts example.get_title_line(20, MONTH, YEAR)
 puts example.get_day_names
 puts example.display_dates
