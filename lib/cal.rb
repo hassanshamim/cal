@@ -1,10 +1,11 @@
 YEAR = ARGV[1].to_i
 MONTH = ARGV[0].to_i
-
+DAYNAMES ='Su Mo Tu We Th Fr Sa  '
 module DisplayInfo
+
   def get_title_line(width, month=@month, year=nil)
     month_names = %w{ January February March April May June July August September October November December }
-    "#{month_names[month-1]} #{year}".center(width) + "  "
+    "#{month_names[month-1]}#{' ' + year.to_s if year}".center(width) + "  "
   end
 end
 
@@ -52,9 +53,6 @@ class Month
     ( ( month + 1 ) * 26 ) / 10
   end
 
-  def get_day_names
-    'Su Mo Tu We Th Fr Sa  '
-  end
 
   def date_array
 
@@ -76,8 +74,7 @@ class Month
   end
 
   def string_array
-    display_array = date_array
-    display_array.map{ | week | week.join(" ") }
+    date_array.map{ | week | week.join(" ") }
   end
 end
 
@@ -85,30 +82,44 @@ class Year
 
   include DisplayInfo
 
+  attr_reader :months_array
+
   def initialize ( year )
     @year = year
     @months_array = []
     1.upto( 12 ) { |i| @months_array << Month.new( i, year ) }
   end
 
-##gotta push 2 nils to to the end of each week array
+  def months_header_title(array)
+    array.map { | month | month.get_title_line( 20 ) }.join('') 
+    
+    string = ""
+    1.upto(3){ |i| string << get_title_line(20, i) }
+    string
+  end
   def display_three_months
-    4.times do
       temp_ary =  @months_array.slice!(0, 3)
+      month_title_string = temp_array.map do | month |
+        month.get_title_line(20)
+      end
+      month_title_string.join('  ') + "  \n"
+
+
       master_ary = temp_ary.map do |month_obj|
         month_obj.to_ary_of_arys.map{ |week_ary| week_ary.push(nil) }
       end
       ary_of_weeks = master_ary.transpose
       ary_of_weeks #i lost my train of thought here
       
-    end
-
+  end
  #   3_month_ary.map! do |month|
  #     month.map!{
  #   end
  #   self.transpose.each do | week |
  #   
  # end
+  def display
+    puts get_title_line(60, 100, @year).rstrip
   end
 end
 
@@ -123,5 +134,5 @@ end
 
 example = Month.new(MONTH, YEAR)
 puts example.get_title_line(20, MONTH, YEAR)
-puts example.get_day_names
+puts DAYNAMES
 puts example.to_string

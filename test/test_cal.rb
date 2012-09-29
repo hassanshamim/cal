@@ -64,9 +64,7 @@ class CalTest < Test::Unit::TestCase
 
   def test_08_get_day_names
 
-    m = Month.new(5, 1995).get_day_names
-  
-    assert_equal 'Su Mo Tu We Th Fr Sa  ', m
+    assert_equal 'Su Mo Tu We Th Fr Sa  ', DAYNAMES 
   end
 
   def test_09_display_dates
@@ -80,4 +78,24 @@ class CalTest < Test::Unit::TestCase
                       """
     assert_equal expected, m.to_string 
   end
+
+  def test_10_year_get_title_line
+    
+    title_line = Year.new(2000).get_title_line(60, 100, 2000).rstrip
+    expected = "                            2000"
+
+    assert_equal expected, title_line
+
+  end
+
+  def test_month_header_title
+    year = Year.new(2000)
+    month_array = year.months_array.slice(0, 3)
+    result = year.months_header_title(month_array)
+
+    expected = "      January               February               March          "
+
+    assert_equal expected, result
+  end
+
 end
