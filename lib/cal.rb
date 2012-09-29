@@ -95,9 +95,16 @@ class Year
   end
 
   def display_three_months
-    temp_ary =  @months_array.slice!(0, 3)
+    temp_array =  @months_array.slice!(0, 3)
     puts months_header_title(temp_array)
     puts DAYNAMES * 3
+
+    string_arrays = temp_array.map{ |month| month.string_array }
+    array_by_lines = string_arrays.transpose   
+    array_by_lines.each do| line | 
+      puts line.join('  ') + '  '
+    end
+    puts ''
   end
 
   def display
