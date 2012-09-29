@@ -1,5 +1,3 @@
-YEAR = ARGV[1].to_i
-MONTH = ARGV[0].to_i
 DAYNAMES ='Su Mo Tu We Th Fr Sa  '
 module DisplayInfo
 
@@ -114,9 +112,17 @@ class Year
 
 end
 
-
-
-example = Month.new(MONTH, YEAR)
-puts example.get_title_line(20, MONTH, YEAR)
-puts DAYNAMES
-puts example.to_string
+if ARGV.size == 1
+  input_year = ARGV[0].to_i
+  year = Year.new( input_year )
+  year.display
+elsif ARGV.size == 2
+  input_month = ARGV[0].to_i
+  input_year = ARGV[1].to_i
+  month = Month.new( input_month, input_year )
+  puts month.get_title_line(20, input_month, input_year)
+  puts DAYNAMES
+  puts month.to_string
+else
+  puts "Invalid arguments.  Use format: ruby cal.rb MONTH, YEAR"
+end
