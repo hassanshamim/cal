@@ -88,7 +88,7 @@ class CalTest < Test::Unit::TestCase
 
   end
 
-  def test_month_header_title
+  def test_11_month_header_title_jan_to_march
     year = Year.new(2000)
     month_array = year.months_array.slice(0, 3)
     result = year.months_header_title(month_array)
@@ -97,5 +97,36 @@ class CalTest < Test::Unit::TestCase
 
     assert_equal expected, result
   end
+
+  def test_11_month_header_title_april_to_june
+    year = Year.new(2001)
+    month_array = year.months_array.slice(3, 3)
+    result = year.months_header_title(month_array)
+
+    expected = "       April                  May                   June          "
+
+    assert_equal expected, result
+  end
+
+  def test_11_month_header_title_july_to_sept
+    year = Year.new(2002)
+    month_array = year.months_array.slice(6, 3)
+    result = year.months_header_title(month_array)
+
+    expected = "        July                 August              September        "
+
+    assert_equal expected, result
+  end
+
+  def test_11_month_header_title_oct_to_dec
+    year = Year.new(2003)
+    month_array = year.months_array.slice(9, 3)
+    result = year.months_header_title(month_array)
+
+    expected = "      October               November              December        "
+
+    assert_equal expected, result
+  end
+
 
 end

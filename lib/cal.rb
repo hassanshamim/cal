@@ -91,44 +91,20 @@ class Year
   end
 
   def months_header_title(array)
-    array.map { | month | month.get_title_line( 20 ) }.join('') 
-    
-    string = ""
-    1.upto(3){ |i| string << get_title_line(20, i) }
-    string
+    array.map { | month | month.get_title_line( 20 ) }.join
   end
+
   def display_three_months
-      temp_ary =  @months_array.slice!(0, 3)
-      month_title_string = temp_array.map do | month |
-        month.get_title_line(20)
-      end
-      month_title_string.join('  ') + "  \n"
-
-
-      master_ary = temp_ary.map do |month_obj|
-        month_obj.to_ary_of_arys.map{ |week_ary| week_ary.push(nil) }
-      end
-      ary_of_weeks = master_ary.transpose
-      ary_of_weeks #i lost my train of thought here
-      
+    temp_ary =  @months_array.slice!(0, 3)
+    puts months_header_title(temp_array)
   end
- #   3_month_ary.map! do |month|
- #     month.map!{
- #   end
- #   self.transpose.each do | week |
- #   
- # end
+
   def display
     puts get_title_line(60, 100, @year).rstrip
+    4.times{ display_three_months}
   end
+
 end
-
-
-#BRAIN DUMP!!
-#new_ary = month.new(1, 2000).to_ary_of_arys.map! { |week_ary| week_ary.push(nil) }
-#4.times do
-#  a.slice!
-#end
 
 
 
