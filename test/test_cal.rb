@@ -98,7 +98,7 @@ class CalTest < Test::Unit::TestCase
     assert_equal expected, result
   end
 
-  def test_11_month_header_title_april_to_june
+  def test_12_month_header_title_april_to_june
     year = Year.new(2001)
     month_array = year.months_array.slice(3, 3)
     result = year.months_header_title(month_array)
@@ -108,7 +108,7 @@ class CalTest < Test::Unit::TestCase
     assert_equal expected, result
   end
 
-  def test_11_month_header_title_july_to_sept
+  def test_13_month_header_title_july_to_sept
     year = Year.new(2002)
     month_array = year.months_array.slice(6, 3)
     result = year.months_header_title(month_array)
@@ -118,7 +118,7 @@ class CalTest < Test::Unit::TestCase
     assert_equal expected, result
   end
 
-  def test_11_month_header_title_oct_to_dec
+  def test_14_month_header_title_oct_to_dec
     year = Year.new(2003)
     month_array = year.months_array.slice(9, 3)
     result = year.months_header_title(month_array)
@@ -128,5 +128,11 @@ class CalTest < Test::Unit::TestCase
     assert_equal expected, result
   end
 
+  def test_15_DAYNAMES_can_be_multiplied_to_make_year_display
 
+    result = DAYNAMES * 3
+    expected = "Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  "
+
+    assert_equal expected, result
+  end
 end

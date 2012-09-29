@@ -97,6 +97,7 @@ class Year
   def display_three_months
     temp_ary =  @months_array.slice!(0, 3)
     puts months_header_title(temp_array)
+    puts DAYNAMES * 3
   end
 
   def display
