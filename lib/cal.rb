@@ -3,8 +3,8 @@ MONTH = ARGV[0].to_i
 
 module DisplayInfo
   def get_title_line(width, month=@month, year=nil)
-    month_names = %w{ January February March April May June July August September October November December }.unshift(nil)
-    "#{month_names[month]} #{year}".center(width) + "  "
+    month_names = %w{ January February March April May June July August September October November December }
+    "#{month_names[month-1]} #{year}".center(width) + "  "
   end
 end
 
@@ -56,7 +56,7 @@ class Month
     'Su Mo Tu We Th Fr Sa  '
   end
 
-  def to_ary_of_arys
+  def date_array
 
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}   #creates array of dates in string format
     initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
@@ -72,14 +72,12 @@ class Month
   end
 
   def to_string
-    display_array = self.to_ary_of_arys
-    test_string = ""
+    string_array.join("  \n") + '  '
+  end
 
-    display_array.each do | week |
-      test_string << week.join(" ")
-      test_string << "  \n"
-    end
-    test_string.chomp!
+  def string_array
+    display_array = date_array
+    display_array.map{ | week | week.join(" ") }
   end
 end
 
@@ -92,8 +90,34 @@ class Year
     @months_array = []
     1.upto( 12 ) { |i| @months_array << Month.new( i, year ) }
   end
+
+##gotta push 2 nils to to the end of each week array
+  def display_three_months
+    4.times do
+      temp_ary =  @months_array.slice!(0, 3)
+      master_ary = temp_ary.map do |month_obj|
+        month_obj.to_ary_of_arys.map{ |week_ary| week_ary.push(nil) }
+      end
+      ary_of_weeks = master_ary.transpose
+      ary_of_weeks #i lost my train of thought here
+      
+    end
+
+ #   3_month_ary.map! do |month|
+ #     month.map!{
+ #   end
+ #   self.transpose.each do | week |
+ #   
+ # end
+  end
 end
 
+
+#BRAIN DUMP!!
+#new_ary = month.new(1, 2000).to_ary_of_arys.map! { |week_ary| week_ary.push(nil) }
+#4.times do
+#  a.slice!
+#end
 
 
 
