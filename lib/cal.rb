@@ -7,7 +7,6 @@ module DisplayInfo
   end
 end
 
-
 class Month
 
   include DisplayInfo
@@ -51,16 +50,13 @@ class Month
     ( ( month + 1 ) * 26 ) / 10
   end
 
-
   def date_array
-
     initial_array = (1..@num_days).to_a.map{|x| x.to_s}   #creates array of dates in string format
     initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
     start_date = @first_day == 0 ? 6 : @first_day - 1     #start_day to accommodate cal starting on sunday
     start_date.times { initial_array.unshift('  ') }      #adjust spacing for start day
     display_array = []
     6.times { display_array << initial_array.slice!(0, 7) } #chunks array into an array of arrays
-
     display_array.each do |array| 
       ( 7 - array.size ).times { array.push( '  ' ) }    #ensures week arrays have 7 elements
     end
@@ -79,37 +75,30 @@ end
 class Year
 
   include DisplayInfo
-
   attr_reader :months_array
 
   def initialize ( year )
     @year = year
-    @months_array = []
-    1.upto( 12 ) { |i| @months_array << Month.new( i, year ) }
+    @months_array = *(1..12).map{ | i | Month.new( i, year ) }
   end
 
   def months_header_title(array)
     array.map { | month | month.get_title_line( 20 ) }.join
   end
 
-  def display_three_months
-    temp_array =  @months_array.slice!(0, 3)
-    puts months_header_title(temp_array)
+  def display_three_months( array )
+    puts months_header_title( array )
     puts DAYNAMES * 3
-
-    string_arrays = temp_array.map{ |month| month.string_array }
-    array_by_lines = string_arrays.transpose   
-    array_by_lines.each do| line | 
-      puts line.join('  ') + '  '
-    end
+    array.map{ | month | month.string_array }
+              .transpose   
+              .each { | line | puts line.join('  ') + '  ' }
     puts ''
   end
 
   def display
     puts get_title_line(60, 100, @year).rstrip
-    4.times{ display_three_months}
+    @months_array.each_slice( 3 ){ | ary | display_three_months( ary ) }
   end
-
 end
 
 if ARGV.size == 1
