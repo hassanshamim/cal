@@ -55,11 +55,19 @@ class Month
     initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
     start_date = @first_day == 0 ? 6 : @first_day - 1     #start_day to accommodate cal starting on sunday
     start_date.times { initial_array.unshift('  ') }      #adjust spacing for start day
+
     display_array = []
     6.times { display_array << initial_array.slice!(0, 7) } #chunks array into an array of arrays
     display_array.each do |array| 
       ( 7 - array.size ).times { array.push( '  ' ) }    #ensures week arrays have 7 elements
     end
+ 
+   # initial_array.each_slice(7) do | sub_array |
+   #   ( 7 -sub_array.size ).times { sub_array.push( '  ' ) }
+   #  OR...
+   #   sub_array.push('  ') until sub_array.size == 7
+   # end
+
     display_array
   end
 
@@ -90,8 +98,8 @@ class Year
     puts months_header_title( array )
     puts DAYNAMES * 3
     array.map{ | month | month.string_array }
-              .transpose   
-              .each { | line | puts line.join('  ') + '  ' }
+         .transpose   
+         .each { | line | puts line.join('  ') + '  ' }
     puts ''
   end
 
