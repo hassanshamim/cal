@@ -1,6 +1,5 @@
 DAYNAMES ='Su Mo Tu We Th Fr Sa  '
 module DisplayInfo
-
   def get_title_line(width, month=@month, year=nil)
     month_names = %w{ January February March April May June July August September October November December }
     "#{month_names[month-1]}#{' ' + year.to_s if year}".center(width) + "  "
@@ -8,15 +7,14 @@ module DisplayInfo
 end
 
 class Month
-
   include DisplayInfo
   attr_reader :leap_year, :num_days, :first_day
 
   def initialize( month, year )
-    @year = year
-    @month = month
-    calc_num_days( month )
-    calc_start_day( month, year )
+    @year = year.to_i
+    @month = month.to_i
+    calc_num_days( @month )
+    calc_start_day( @month, @year )
   end
 
   def leap_year?
@@ -33,17 +31,16 @@ class Month
     if month == feb then @num_days = ( leap_year? ? 29 : 28 ) end
   end
 
-  def calc_start_day( month, year )
+  def calc_start_day( month, year, day_of_month=1 )
     if month < 3
       month += 12
       year -= 1
     end
-    day_of_month = 1
    @first_day = ( day_of_month + march_offset(month) + year + leap_year_offset(year) ) % 7
   end
 
   def leap_year_offset( year)
-    ( year/4 ) +( 6 *( year/100 ) ) + ( year/400 )
+    ( year/4 ) +( 6 * ( year/100 ) ) + ( year/400 )
   end
 
   def march_offset( month )
@@ -51,24 +48,14 @@ class Month
   end
 
   def date_array
-    initial_array = (1..@num_days).to_a.map{|x| x.to_s}   #creates array of dates in string format
-    initial_array.map!{ |x| x.size == 1 ? ' ' + x : x }   #adds single space before single digits
     start_date = @first_day == 0 ? 6 : @first_day - 1     #start_day to accommodate cal starting on sunday
-    start_date.times { initial_array.unshift('  ') }      #adjust spacing for start day
-
-    display_array = []
-    6.times { display_array << initial_array.slice!(0, 7) } #chunks array into an array of arrays
-    display_array.each do |array| 
-      ( 7 - array.size ).times { array.push( '  ' ) }    #ensures week arrays have 7 elements
+    initial_array = (1..@num_days).map{ |x| x.to_s.rjust(2) }  #creates array of dates in string format
+    start_date.times{ initial_array.unshift('  ') }      #adjust spacing for start day
+    display_array = Array.new(6){ initial_array.slice!(0,7) }
+    #display_array = initial_array.each_slice(7).to_a
+    display_array.each do |array|
+      array.push('  ') until array.size == 7
     end
- 
-   # initial_array.each_slice(7) do | sub_array |
-   #   ( 7 -sub_array.size ).times { sub_array.push( '  ' ) }
-   #  OR...
-   #   sub_array.push('  ') until sub_array.size == 7
-   # end
-
-    display_array
   end
 
   def to_string
@@ -78,28 +65,30 @@ class Month
   def string_array
     date_array.map{ | week | week.join(" ") }
   end
+
+  def display
+    puts self.get_title_line(20, @month, @year)
+    puts DAYNAMES
+    puts self.to_string
+  end
 end
 
 class Year
-
   include DisplayInfo
-  attr_reader :months_array
 
   def initialize ( year )
-    @year = year
-    @months_array = *(1..12).map{ | i | Month.new( i, year ) }
+    @year = year.to_i
+    @months_array = (1..12).map{ | i | Month.new( i, year ) }
   end
 
   def months_header_title(array)
-    array.map { | month | month.get_title_line( 20 ) }.join
+    array.map { |month| month.get_title_line( 20 ) }.join
   end
 
   def display_three_months( array )
     puts months_header_title( array )
     puts DAYNAMES * 3
-    array.map{ | month | month.string_array }
-         .transpose   
-         .each { | line | puts line.join('  ') + '  ' }
+    array.map(&:string_array).transpose.each{ |line| puts line.join('  ') + '  ' }
     puts ''
   end
 
@@ -108,18 +97,4 @@ class Year
     @months_array.each_slice( 3 ){ | ary | display_three_months( ary ) }
   end
 end
-
-if ARGV.size == 1
-  input_year = ARGV[0].to_i
-  year = Year.new( input_year )
-  year.display
-elsif ARGV.size == 2
-  input_month = ARGV[0].to_i
-  input_year = ARGV[1].to_i
-  month = Month.new( input_month, input_year )
-  puts month.get_title_line(20, input_month, input_year)
-  puts DAYNAMES
-  puts month.to_string
-else
-  puts "Invalid arguments.  Use format: ruby cal.rb MONTH, YEAR"
-end
+[nil, Year, Month][ARGV.size].new(*ARGV).display
