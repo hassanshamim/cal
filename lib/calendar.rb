@@ -7,6 +7,7 @@ module DisplayInfo
 end
 
 class Month
+
   include DisplayInfo
   attr_reader :leap_year, :num_days, :first_day
 
@@ -52,7 +53,6 @@ class Month
     initial_array = (1..@num_days).map{ |x| x.to_s.rjust(2) }  #creates array of dates in string format
     start_date.times{ initial_array.unshift('  ') }      #adjust spacing for start day
     display_array = Array.new(6){ initial_array.slice!(0,7) }
-    #display_array = initial_array.each_slice(7).to_a
     display_array.each do |array|
       array.push('  ') until array.size == 7
     end
